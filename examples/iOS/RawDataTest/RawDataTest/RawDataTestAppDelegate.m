@@ -6,10 +6,20 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    // Added this workaround to prevent crash
+    NSArray *windows = [[UIApplication sharedApplication] windows];
+    for(UIWindow *window in windows) {
+        if(window.rootViewController == nil){
+            UIViewController* vc = [[UIViewController alloc]initWithNibName:nil bundle:nil];
+            window.rootViewController = vc;
+        }
+    }
     
     GLubyte *rawDataBytes = calloc(10 * 10 * 4, sizeof(GLubyte));
     for (unsigned int yIndex = 0; yIndex < 10; yIndex++)
