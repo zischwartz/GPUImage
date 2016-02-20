@@ -38,37 +38,36 @@ class ViewController: UIViewController {
             self.rawBytesForImage = self.output!.rawBytesForImage
             self.last_time = NSDate()
 //            print(self.rawBytesForImage?.memory)
-            
-            let buffer = UnsafeMutableBufferPointer(start: self.rawBytesForImage!, count: Int(352*288*4))
-//            print(buffer[0])
-//            print(buffer[1])
 
-            // WORKS
+            //http://stackoverflow.com/a/31109955/83859
+            let buffer = UnsafeMutableBufferPointer(start: self.rawBytesForImage!, count: Int(352*288*4))
+            print(buffer[0])
+            print(buffer[1])
+            print("  -")
+            
+
+            // also WORKS
 //            var data = NSData(bytes: self.rawBytesForImage!, length: Int(352*288*4))
 
 
-            //http://stackoverflow.com/a/31109955/83859
-//            print(data[0])
-//            print(data[1])
 
-//            UTF8String
-//            print(self.rawBytesForImage?.successor().memory)
-//            for b in self.rawBytesForImage!.memory.stride(through: 10, by: 1) {
-//                print(b)
-//            }
 
-            //            print(self.output!.rawBytesForImage.successor().memory)
-
-//            public var rawBytesForImage: UnsafeMutablePointer<GLubyte> { get }
 
         }
         
 
         
         videoCamera?.addTarget(output)
+        videoCamera?.startCameraCapture()
         
-//        Generated from obj c here: https://github.com/BradLarson/GPUImage/issues/946 
+
         
+    }
+}
+
+
+//        Generated from obj c here: https://github.com/BradLarson/GPUImage/issues/946
+
 //        var rawDataOutput: GPUImageRawDataOutput = GPUImageRawDataOutput(imageSize: CGSizeMake(640.0, 480.0), resultsInBGRAFormat: true)
 //        self.rawDataOutput = rawDataOutput
 //        var outputBytes: GLubyte = rawDataOutput.rawBytesForImage()
@@ -77,24 +76,15 @@ class ViewController: UIViewController {
 //        targetUIImageView.image = UIImage.imageWithData(dataForRawBytes)
 
 
-        
-        
-
-
-
-        //        output     public var newFrameAvailableBlock: (() -> Void)!
-
-        
-//        rawDataOutput setNewFrameAvailableBlock:^{
-//            // Handle raw data processing here
+//            UTF8String
+//            print(self.rawBytesForImage?.successor().memory)
+//            for b in self.rawBytesForImage!.memory.stride(through: 10, by: 1) {
+//                print(b)
 //            }
-        
-//        GPUImageRawDataOutput rawDataOutput = [[GPUImageRawDataOutput alloc] initWithImageSize:CGSizeMake(352, 288) resultsInBGRAFormat:YES];
 
-        
-        videoCamera?.startCameraCapture()
-        
+//            print(self.output!.rawBytesForImage.successor().memory)
 
-        
-    }
-}
+//            public var rawBytesForImage: UnsafeMutablePointer<GLubyte> { get }
+
+
+      
