@@ -32,7 +32,10 @@ class ViewController: UIViewController {
         
 //        Works
         output = GPUImageRawDataOutput(imageSize: CGSizeMake(352, 288), resultsInBGRAFormat: true)
-        
+
+//        this works too, slightly slower it seems? unlike guy says
+//        output = MyRawDataOutput(imageSize: CGSizeMake(352, 288), resultsInBGRAFormat: true)
+
         output!.newFrameAvailableBlock = { () in
             print((NSDate().timeIntervalSinceReferenceDate-self.last_time.timeIntervalSinceReferenceDate)*1000)
             self.rawBytesForImage = self.output!.rawBytesForImage
@@ -41,20 +44,18 @@ class ViewController: UIViewController {
 
             //http://stackoverflow.com/a/31109955/83859
             let buffer = UnsafeMutableBufferPointer(start: self.rawBytesForImage!, count: Int(352*288*4))
-            print(buffer[0])
-            print(buffer[1])
-            print("  -")
+//            print(buffer[0])
+//            print(buffer[1])
+//            print("  -")
             
 
             // also WORKS
 //            var data = NSData(bytes: self.rawBytesForImage!, length: Int(352*288*4))
 
-
-
-
-
         }
         
+//        https://github.com/BradLarson/GPUImage/blob/master/framework/Source/GPUImageLookupFilter.h
+//        answer: http://stackoverflow.com/questions/33731637/how-to-create-gpuimage-lookup-png-resource
 
         
         videoCamera?.addTarget(output)
@@ -63,8 +64,49 @@ class ViewController: UIViewController {
 
         
     }
+    
 }
 
+
+struct LastImageData {
+    var lastImage:UnsafeMutablePointer<GLubyte>? = nil
+    var lastImageSize = CGSizeZero
+    var lastImageSizeInBytes:Int = 0
+}
+
+var lastImageData = LastImageData()
+
+class MyRawDataOutput : GPUImageRawDataOutput {
+    
+    var rawInputFilter:GPUImageRawDataInput?
+    var last_time = NSDate()
+    
+    override func newFrameReadyAtTime(frameTime:CMTime, atIndex:Int) {
+        super.newFrameReadyAtTime(frameTime, atIndex: atIndex)
+        self.lockFramebufferForReading()
+        print("YOOO")
+        print((NSDate().timeIntervalSinceReferenceDate-self.last_time.timeIntervalSinceReferenceDate)*1000)
+        self.last_time = NSDate()
+//        print(frameTime)
+        
+        let data = self.rawBytesForImage
+        lastImageData.lastImageSize = self.maximumOutputSize()
+        
+        if lastImageData.lastImage == nil {
+            lastImageData.lastImageSizeInBytes = Int(self.bytesPerRowInOutput() * UInt(lastImageData.lastImageSize.height))
+            lastImageData.lastImage = UnsafeMutablePointer<GLubyte>.alloc(lastImageData.lastImageSizeInBytes)
+        }
+//        memcpy(lastImageData.lastImage!, data, UInt(lastImageData.lastImageSizeInBytes))
+        
+        self.unlockFramebufferAfterReading()
+        
+        self.rawInputFilter?.updateDataFromBytes(data, size:lastImageData.lastImageSize)
+        self.rawInputFilter?.processDataForTimestamp(frameTime)
+        
+        //Save image in the album for debug
+//        ImageSaver.saveImage(self.lastImage!, width: Int32(self.lastImageSize.width), height: Int32(self.lastImageSize.height))
+    }
+}
 
 //        Generated from obj c here: https://github.com/BradLarson/GPUImage/issues/946
 
