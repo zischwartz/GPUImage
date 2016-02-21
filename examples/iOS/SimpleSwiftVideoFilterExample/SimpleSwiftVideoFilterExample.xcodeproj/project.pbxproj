@@ -54,7 +54,6 @@
 
 /* Begin PBXFileReference section */
 		BC73FD1E19612C19004A9191 /* SimpleSwiftVideoFilterExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleSwiftVideoFilterExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BC73FD2219612C19004A9191 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BC73FD2319612C19004A9191 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BC73FD2519612C19004A9191 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		BC73FD2819612C19004A9191 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -98,17 +97,8 @@
 				BC73FD2519612C19004A9191 /* ViewController.swift */,
 				BC73FD2719612C19004A9191 /* Main.storyboard */,
 				BC73FD2A19612C19004A9191 /* Images.xcassets */,
-				BC73FD2119612C19004A9191 /* Supporting Files */,
 			);
 			path = SimpleSwiftVideoFilterExample;
-			sourceTree = "<group>";
-		};
-		BC73FD2119612C19004A9191 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				BC73FD2219612C19004A9191 /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		BC73FD4719612C54004A9191 /* Products */ = {

@@ -1,6 +1,19 @@
 import UIKit
 import GPUImage
 
+
+//https://gist.github.com/ericdke/fa262bdece59ff786fcb
+//extension UnsafeMutableBufferPointer {
+//    func splitBy(subSize: Int) -> [[Element]] {
+//        return 0.stride(to: self.count, by: subSize).map { startIndex in
+//            let endIndex = startIndex.advancedBy(subSize, limit: self.count)
+//            return Array(self[startIndex ..< endIndex])
+//        }
+//    }
+//}
+
+//let chunks = arr.splitBy(5)
+
 class ViewController: UIViewController {
     
     var videoCamera:GPUImageVideoCamera?
@@ -30,6 +43,9 @@ class ViewController: UIViewController {
         videoCamera?.addTarget(filter)
         filter?.addTarget(self.view as! GPUImageView)
         
+//        TODO, downsamplefirst with
+//        GPUImageLanczosResamplingFilter
+        
 //        Works
         output = GPUImageRawDataOutput(imageSize: CGSizeMake(352, 288), resultsInBGRAFormat: true)
 
@@ -44,6 +60,9 @@ class ViewController: UIViewController {
 
             //http://stackoverflow.com/a/31109955/83859
             let buffer = UnsafeMutableBufferPointer(start: self.rawBytesForImage!, count: Int(352*288*4))
+
+
+//            print(buffer.splitBy(4)[1])
 //            print(buffer[0])
 //            print(buffer[1])
 //            print("  -")
@@ -61,7 +80,8 @@ class ViewController: UIViewController {
         videoCamera?.addTarget(output)
         videoCamera?.startCameraCapture()
         
-
+        //            buffer.baseAddress.destroy(buffer.count)
+        //            buffer.baseAddress.dealloc(buffer.count)
         
     }
     
